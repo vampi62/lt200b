@@ -19,3 +19,6 @@ or replace the "address" variable in gui.py with the MAC address of your printer
 ```
 python gui.py --address aa:bb:cc:dd:ee:ff
 ```
+
+![GUI Screenshot](gui.png)
+
