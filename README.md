@@ -10,3 +10,12 @@ Use the MAC address printed on the back of the printer. Since the printer uses p
 python print.py --address aa:bb:cc:dd:ee:ff --image hello.png
 python print.py --address aa:bb:cc:dd:ee:ff --text "Hello World"
 ```
+
+## UI
+
+You can also use a simple GUI to print images or text.
+or replace the "address" variable in gui.py with the MAC address of your printer to start the graphical interface without having to enter it each time.
+
+```
+python gui.py --address aa:bb:cc:dd:ee:ff
+```
