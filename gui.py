@@ -1,7 +1,7 @@
 import tkinter as tk
 import argparse
-from tkinter import filedialog, messagebox
-from PIL import Image, ImageTk, ImageDraw, ImageFont
+from tkinter import filedialog
+from PIL import Image, ImageTk, ImageDraw, ImageFont, ImageChops
 import subprocess
 import threading
 import tempfile
@@ -44,23 +44,11 @@ def text_to_image(text, font_size=20):
     return img
 
 def crop_white_borders(img):
-    # Convert image to grayscale to detect non-white areas
-    bg = Image.new(img.mode, img.size, (255, 255, 255))
-    diff = Image.new('L', img.size)
-    
     if img.mode == 'RGBA':
         img_rgb = img.convert('RGB')
     else:
         img_rgb = img
-    
-    # Get bounding box of non-white content
-    pixels = img_rgb.load()
-    bbox = img_rgb.getbbox()
-    
-    # More aggressive cropping by checking for near-white pixels
     img_gray = img_rgb.convert('L')
-    # Threshold: consider pixels darker than 250 as content
-    from PIL import ImageChops
     bg_gray = Image.new('L', img.size, 255)
     diff = ImageChops.difference(img_gray, bg_gray)
     diff = ImageChops.add(diff, diff, 2.0, -100)
@@ -250,9 +238,7 @@ def clear_message():
     message_label.pack_forget()
 
 def print_image():
-    # Clear previous message
     clear_message()
-    
     if 'selected_image_path' in globals() and 'processed_image' in globals():
         # Start printing in a separate thread
         print_thread = threading.Thread(target=print_image_async, daemon=True)
